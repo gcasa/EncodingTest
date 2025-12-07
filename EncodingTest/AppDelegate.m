@@ -170,7 +170,7 @@
     
     // Create and encode NSEnergyFormatter
     NSEnergyFormatter *energyFormatter = [[NSEnergyFormatter alloc] init];
-    [energyFormatter setForFoodEnergyUse:YES];
+    [energyFormatter setForFoodEnergyUse:NO];
     [energyFormatter setUnitStyle:NSFormattingUnitStyleMedium];
     NSNumberFormatter *energyNumberFormatter = [[NSNumberFormatter alloc] init];
     [energyNumberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
@@ -220,6 +220,20 @@
         NSLog(@"NSMassFormatter encoded to: %@", massFormatterPath);
     } else {
         NSLog(@"Error encoding NSMassFormatter: %@", error);
+    }
+    
+    // Create and encode NSPersonNameComponentsFormatter
+    NSPersonNameComponentsFormatter *personNameFormatter = [[NSPersonNameComponentsFormatter alloc] init];
+    [personNameFormatter setStyle:NSPersonNameComponentsFormatterStyleDefault];
+    [personNameFormatter setPhonetic:NO];
+    
+    NSString *personNameFormatterPath = [documentsPath stringByAppendingPathComponent:@"NSPersonNameComponentsFormatter.archive"];
+    NSData *personNameFormatterData = [NSKeyedArchiver archivedDataWithRootObject:personNameFormatter requiringSecureCoding:NO error:&error];
+    if (personNameFormatterData) {
+        [personNameFormatterData writeToFile:personNameFormatterPath atomically:YES];
+        NSLog(@"NSPersonNameComponentsFormatter encoded to: %@", personNameFormatterPath);
+    } else {
+        NSLog(@"Error encoding NSPersonNameComponentsFormatter: %@", error);
     }
     
     NSLog(@"All formatters have been encoded to separate archive files in: %@", documentsPath);
